@@ -17,6 +17,8 @@ var Device = module.exports = function Device() {
   this._pubsub = null;
   this._log = null;
 
+  this._subDevices = [];
+
   var self = this;
   this.on = function(type, handler) {
     self._emitter.on(type, handler);
@@ -53,12 +55,16 @@ Device.prototype._generate = function(config) {
     self._initMonitor(name);
     self._monitors.push(name);
   });
+
+  config.subDevices.forEach(function(device) {
+    var machine = self._scout._newSubDevice.apply(self._scout, arguments);
+    self._subDevices.push(machine);
+  });
   
   Object.keys(config.streams).forEach(function(name) {
     var s = config.streams[name];
     self._initStream(name, s.handler, s.options);
   });
-  
 };
 
 Device.prototype.call = function(/* type, ...args */) {
