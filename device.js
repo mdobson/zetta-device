@@ -16,8 +16,9 @@ var Device = module.exports = function Device() {
   this._monitors = [];
   this._pubsub = null;
   this._log = null;
-
+  
   this._subDevices = [];
+  this.links = [];
 
   var self = this;
   this.on = function(type, handler) {
