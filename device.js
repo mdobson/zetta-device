@@ -56,15 +56,20 @@ Device.prototype._generate = function(config) {
     self._monitors.push(name);
   });
 
-  config.subDevices.forEach(function(device) {
-    var machine = self._scout._newSubDevice.apply(self._scout, arguments);
-    self._subDevices.push(machine);
+  config.subDevices.forEach(function(args) {
+    self.newSubDevice.apply(self, args);
   });
   
   Object.keys(config.streams).forEach(function(name) {
     var s = config.streams[name];
     self._initStream(name, s.handler, s.options);
   });
+};
+
+Device.prototype.newSubDevice = function(/* type, ...args */) {
+  var self = this;
+  var machine = self._scout._newSubDevice.apply(self._scout, arguments);
+  self._subDevices.push(machine);  
 };
 
 Device.prototype.call = function(/* type, ...args */) {
