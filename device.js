@@ -18,7 +18,7 @@ var Device = module.exports = function Device() {
   this._log = null;
   
   this._subDevices = [];
-  this.links = [];
+  this._links = [];
 
   var self = this;
   this.on = function(type, handler) {
